@@ -88,6 +88,8 @@ output "web_vmss_id" {
   value = azurerm_linux_virtual_machine_scale_set.web_vmss.id 
 }
 
+
+
 output "web_vmss_name" {
   description = "Web Virtual Machine Scale Set Name"
   value = azurerm_linux_virtual_machine_scale_set.web_vmss.name

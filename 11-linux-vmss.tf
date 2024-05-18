@@ -46,6 +46,13 @@ resource "azurerm_linux_virtual_machine_scale_set" "web_vmss" {
   }
 
   upgrade_mode = "Automatic"
+
+   data_disk {
+    lun                  = 1
+    caching              = "ReadOnly"
+    storage_account_type = "Standard_LRS"
+    disk_size_gb         = 512
+  }
   
   network_interface {
     name    = "web-vmss-nic"
@@ -60,18 +67,18 @@ resource "azurerm_linux_virtual_machine_scale_set" "web_vmss" {
   }
 }
 
-resource "azurerm_managed_disk" "main" {
-  name                 = "${azurerm_linux_virtual_machine_scale_set.web_vmss.name}-disk1"
-  location             = azurerm_resource_group.rg.location
-  resource_group_name  = azurerm_resource_group.rg.name
-  storage_account_type = "Standard_LRS"
-  create_option        = "Empty"
-  disk_size_gb         = 100
-}
+# resource "azurerm_managed_disk" "main" {
+#   name                 = "${azurerm_linux_virtual_machine_scale_set.web_vmss.name}-disk1"
+#   location             = azurerm_resource_group.rg.location
+#   resource_group_name  = azurerm_resource_group.rg.name
+#   storage_account_type = "Standard_LRS"
+#   create_option        = "Empty"
+#   disk_size_gb         = 100
+# }
 
-resource "azurerm_virtual_machine_data_disk_attachment" "main" {
-  managed_disk_id    = azurerm_managed_disk.main.id
-  virtual_machine_id = azurerm_linux_virtual_machine_scale_set.web_vmss.id
-  lun                = "10"
-  caching            = "ReadWrite"
-}
+# resource "azurerm_virtual_machine_data_disk_attachment" "main" {
+#   managed_disk_id    = azurerm_managed_disk.main.id
+#   virtual_machine_id = azurerm_linux_virtual_machine_scale_set.web_vmss.id
+#   lun                = "10"
+#   caching            = "ReadWrite"
+# }
